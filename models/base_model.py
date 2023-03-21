@@ -27,6 +27,10 @@ class BaseModel:
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
+    def __repr__(self):
+        """Returns the official string representation of instance object"""
+        return self.__str__()
+
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
