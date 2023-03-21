@@ -127,7 +127,6 @@ class HBNBCommand(cmd.Cmd):
         # handle object creation with given parameters
         if len(args) > 1:
             args = args[1:]
-            print(args)
 
             for arg in args:
                 arg = arg.partition("=")
@@ -143,9 +142,6 @@ class HBNBCommand(cmd.Cmd):
 
                 if attr_name in dir(new_instance):
                     new_instance.__dict__.update({attr_name: attr_val})
-
-            dic = new_instance.to_dict()
-            print(dic)
 
         storage.save()
         print(new_instance.id)
