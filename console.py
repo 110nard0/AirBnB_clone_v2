@@ -126,24 +126,27 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) > 1:
             args = args[1:]
+            print(args)
 
             for arg in args:
                 arg = arg.partition("=")
+                print(arg)
                 attr_name = arg[0]
-                attr_val = arg[2].strip('\'')
+                attr_val = arg[2].strip('\"')
 
                 # type cast as necessary
                 if attr_name in HBNBCommand.types:
                     attr_val = HBNBCommand.types[attr_name](attr_val)
 
                 if attr_name in dir(new_instance):
-                    new_instance.__dict__.update({str(attr_name): attr_val})
+                    new_instance.__dict__.update({attr_name: attr_val})
             
             dic = new_instance.to_dict()
             print(dic)
 
         storage.save()
         print(new_instance.id)
+        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
