@@ -64,4 +64,4 @@ class FileStorage:
                 if val == obj:
                     del FileStorage.__objects[key]
         else:
-             pass
+            pass
