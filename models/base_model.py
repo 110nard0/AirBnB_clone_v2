@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our AirBnB clone"""
 import uuid
-from models import storage
 from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -29,7 +28,7 @@ class BaseModel:
                     setattr(self, k, datetime.fromisoformat(str(v)))
                 else:
                     setattr(self, k, v)
-            
+
     def __str__(self):
         """Returns a string representation of the class instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -41,12 +40,14 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
+        from models import storage
         self.updated_at = datetime.utcnow()
         storage.new(self)
         storage.save()
 
     def delete(self):
         """Deletes the current instance from the storage"""
+        from models import storage
         storage.delete(self)
 
     def to_dict(self):
