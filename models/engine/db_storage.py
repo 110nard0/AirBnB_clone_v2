@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage database storage for AirBnB clone"""
-from os import os
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import BaseModel, Base
