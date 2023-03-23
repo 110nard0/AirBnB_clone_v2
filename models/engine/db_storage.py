@@ -1,15 +1,21 @@
 #!/usr/bin/python3
 """This module defines a class to manage database storage for AirBnB clone"""
-import os
+from os import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
+
+classes = {
+           'BaseModel': BaseModel, 'User': User, 'Place': Place,
+           'State': State, 'City': City, 'Amenity': Amenity,
+           'Review': Review
+          }
 
 
 class DBStorage():
@@ -31,20 +37,23 @@ class DBStorage():
                                pool_pre_ping=True)
 
         if environ == "test":
-            for table in self.__session:
-                table.drop(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ Retrieves all model objects depending on class """
         obj_dict = {}
-        if cls is not None:
-            for obj in self.__session.query(cls).order_by(cls.id).all():
-                obj_dict.update({f"{cls.__name__}.{obj.id}": obj})
+        if cls is not None and cls != "":
+            for obj in self.__session.query(classes[cls]).all():
+                key = "{}.{}".format(obj.__class__.name, obj.id)
+                obj_dict[key] = obj
+            return obj_dict
         else:
-            for obj in self.__session.query(
-                        User, State, City, Place, Amenity, Review).all():
-                obj_dict.update({f"{obj.__class__.__name__}.{obj.id}": obj})
-        return obj_dict
+            for claxx in classes:
+                objs = self.__session.query(claxx).all()
+                for obj in objs:
+                    key = "{}.{}".format(obj.__class__.name, obj.id)
+                    obj_dict[key] = obj
+            return obj_dict
 
     def new(self, obj):
         """ Adds the object to the current database session """
@@ -58,8 +67,6 @@ class DBStorage():
         """ Deletes object from the current database session if it exists """
         if obj is not None:
             self.__session.delete(obj)
-        else:
-            pass
 
     def reload(self):
         """ Generates the database schema for all tables """

@@ -5,9 +5,7 @@ and calls the reload method to retrieve saved model class instances
 """
 import os
 
-env = os.environ
-
-if env.get('HBNB_TYPE_STORAGE') == "db":
+if os.getenv('HBNB_TYPE_STORAGE') == "db":
     from models.engine.db_storage import DBStorage
     storage = DBStorage()
 else:
