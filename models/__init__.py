@@ -3,13 +3,13 @@
 This module creates an instance object of FileStorage or DBStorage type
 and calls the reload method to retrieve saved model class instances
 """
-import os
+from os import environ
 
-if os.getenv('HBNB_TYPE_STORAGE') == "db":
+
+if environ.get('HBNB_TYPE_STORAGE') == 'db':
     from models.engine.db_storage import DBStorage
     storage = DBStorage()
 else:
     from models.engine.file_storage import FileStorage
     storage = FileStorage()
-
 storage.reload()

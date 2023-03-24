@@ -3,7 +3,7 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -18,12 +18,12 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
+    dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Place': Place,
                'State': State, 'City': City, 'Amenity': Amenity,
                'Review': Review
               }
-    dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
              'number_rooms': int, 'number_bathrooms': int,
              'max_guest': int, 'price_by_night': int,
@@ -131,19 +131,19 @@ class HBNBCommand(cmd.Cmd):
             for arg in args:
                 arg = arg.partition("=")
                 attr_name = arg[0]
-                attr_val = arg[2].strip('\"')
+                attr_value = arg[2].strip('"\'')
 
                 # type cast and handle arguments as necessary
-                if attr_name in HBNBCommand.types:
-                    attr_val = HBNBCommand.types[attr_name](attr_val)
+                if attr_name in self.types:
+                    attr_value = self.types[attr_name](attr_value)
 
-                if isinstance(attr_val, str):
-                    attr_val = attr_val.replace('_', ' ')
+                if isinstance(attr_value, str):
+                    attr_value = attr_value.replace('_', ' ')
 
-                if attr_name in dir(new_instance):
-                    new_instance.__dict__.update({attr_name: attr_val})
+                if hasattr(new_instance, attr_name):
+                    setattr(new_instance, attr_name, attr_value)
 
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -175,7 +175,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(storage.all()[key])
         except KeyError:
             print("** no instance found **")
 
@@ -209,6 +209,7 @@ class HBNBCommand(cmd.Cmd):
         try:
             del (storage.all()[key])
             storage.save()
+            print("** deleted successfully **")
         except KeyError:
             print("** no instance found **")
 
@@ -226,13 +227,13 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.all(args).items():
-                if k.split('.')[0] == args:
-                    print_list.append(v)
+            else:
+                for k, v in storage.all(args).items():
+                    if k.split('.')[0] == args:
+                        print_list.append(v)
         else:
-            for k, v in storage.all().items():
+            for v in storage.all().values():
                 print_list.append(v)
-
         print(print_list)
 
     def help_all(self):
@@ -243,7 +244,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
+        for k in storage.all().keys():
             if args == k.split('.')[0]:
                 count += 1
         print(count)

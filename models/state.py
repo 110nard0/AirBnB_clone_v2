@@ -9,21 +9,18 @@ from os import getenv
 
 class State(BaseModel, Base):
     """ The state class, contains class and getter attributes """
-    __tablename__ = "states"
+    if getenv('HBNB_TYPE_STORAGE') == "db":
+        __tablename__ = "states"
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
         name = Column(String(128), nullable=False)
-        cities = relationship("City", back_populates="state",
+        cities = relationship("City", backref="states",
                                cascade="all, delete, delete-orphan")
     else:
         name = ""
 
         @property
         def cities(self):
-            """
-                Getter attribute that returns list of City
-                instances with state_id == State().id
-            """
+            """ Returns list of City instances with state_id == State().id """
             city_list = []
             for city in models.storage.all('City').values():
                 if city.state_id == self.id:
