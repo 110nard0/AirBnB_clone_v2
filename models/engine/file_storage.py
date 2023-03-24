@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for AirBnB clone"""
 import json
+from os import getenv
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -31,9 +32,10 @@ class FileStorage:
                     cls_dict[key] = obj
         else:
             cls_dict = self.__objects
-        if cls_dict:
-            for v in cls_dict.values():
-                v.__dict__.pop('_sa_instance_state', None)
+        if getenv('HBNB_TYPE_STORAGE') != 'db':
+            if cls_dict:
+                for v in cls_dict.values():
+                    v.__dict__.pop('_sa_instance_state', None)
         return cls_dict
 
     def new(self, obj):
