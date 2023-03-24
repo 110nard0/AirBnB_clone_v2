@@ -24,12 +24,17 @@ class FileStorage:
         cls_dict = {}
 
         if cls:
+            if type(cls) == str:
+                cls = classes[cls]
             for key, obj in self.__objects.items():
-                if obj.__class__ == cls or\
-                   obj.__class__ == classes[cls]:
+                if obj.__class__ == cls:
                     cls_dict[key] = obj
-            return cls_dict
-        return self.__objects
+        else:
+            cls_dict = self.__objects
+        if cls_dict:
+            for v in cls_dict.values():
+                v.__dict__.pop('_sa_instance_state', None)
+        return cls_dict
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
