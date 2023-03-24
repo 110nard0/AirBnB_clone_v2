@@ -11,8 +11,7 @@ place_amenity = Table("place_amenity", Base.metadata,
                              primary_key=True, nullable=False),
                       Column("amenity_id", String(60),
                              ForeignKey("amenities.id"),
-                             primary_key=True, nullable=False)
-)
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -63,8 +62,8 @@ class Place(BaseModel, Base):
             """
             amenity_list = []
             for key, amenity in models.storage.all('Amenity').items():
-                # if amenity.place_id == self.id:
-                if key.split('.')[1] in self.amenity_ids:
+                if amenity.place_id == self.id:
+                # if key.split('.')[1] in self.amenity_ids:
                     amenity_list.append(amenity.id)
             return amenity_list
 
