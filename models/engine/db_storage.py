@@ -26,9 +26,9 @@ class DBStorage():
         # create engine
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(getenv('HBNB_MYSQL_USER'),
-                                              getenv('HBNB_MYSQL_PWD'),
-                                              getenv('HBNB_MYSQL_HOST'),
-                                              getenv('HBNB_MYSQL_DB')),
+                                             getenv('HBNB_MYSQL_PWD'),
+                                             getenv('HBNB_MYSQL_HOST'),
+                                             getenv('HBNB_MYSQL_DB')),
                                       pool_pre_ping=True)
         # drop tables if test environment
         if getenv('HBNB_ENV') == 'test':
