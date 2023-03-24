@@ -61,9 +61,8 @@ class Place(BaseModel, Base):
             """
             """
             amenity_list = []
-            for key, amenity in models.storage.all('Amenity').items():
+            for amenity in models.storage.all('Amenity').values():
                 if amenity.place_id == self.id:
-                # if key.split('.')[1] in self.amenity_ids:
                     amenity_list.append(amenity)
             return amenity_list
 
@@ -72,6 +71,6 @@ class Place(BaseModel, Base):
             """
             """
             if amenity and type(amenity).__name__ == "Amenity":
-                # for amenity in models.storage.all(Amenity).values():
-                if amenity.place_id == self.id:
-                    self.amenity_ids.append(amenity)
+                for amenity in models.storage.all('Amenity').values():
+                    if amenity.place_id == self.id:
+                        self.amenity_ids.append(amenity)

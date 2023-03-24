@@ -13,16 +13,15 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all AirBnB models with public attributes and methods"""
     id = Column(String(60), primary_key=True, nullable=False)
-    created_at = Column(DateTime, nullable=False,
-                        default=datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False,
-                        default=datetime.utcnow())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.utcnow()
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
         else:
             for k, v in kwargs.items():
                 if k == "__class__":
@@ -31,12 +30,13 @@ class BaseModel:
                     setattr(self, k, datetime.fromisoformat(str(v)))
                 else:
                     setattr(self, k, v)
+                if not self.id:
                     self.id = str(uuid.uuid4())
 
     def __str__(self):
         """Returns a string representation of the class instance"""
-        return '[{}] ({}) {}'.format(
-                              self.__class__.__name__, self.id, self.__dict__)
+        return '[{}] ({}) {}'.format(self.__class__.__name__,
+                              self.id, self.__dict__)
 
     def __repr__(self):
         """Returns the official string representation of instance object"""
