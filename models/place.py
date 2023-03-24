@@ -1,5 +1,24 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+from models.base_model import BaseModel
+
+
+class Place(BaseModel):
+    """ A place class with defined attributes """
+    city_id = ""
+    user_id = ""
+    name = ""
+    description = ""
+    number_rooms = 0
+    number_bathrooms = 0
+    max_guest = 0
+    price_by_night = 0
+    latitude = 0.0
+    longitude = 0.0
+    amenity_ids = []
+
+
+'''
 import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table
@@ -15,7 +34,6 @@ place_amenity = Table("place_amenity", Base.metadata,
 
 
 class Place(BaseModel):
-    """ A place class with defined attributes """
     __tablename__ = "places"
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
@@ -71,3 +89,4 @@ class Place(BaseModel):
             for amenity in models.storage.all('Amenity').values():
                 if amenity.id == self.id:
                     amenity_ids.append(amenity)
+'''

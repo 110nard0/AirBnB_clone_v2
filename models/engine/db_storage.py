@@ -25,11 +25,11 @@ class DBStorage():
         """ Initializes a new engine using environment variables """
         # create engine
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                       format(getenv('HBNB_MYSQL_USER'),
+                                      format(getenv('HBNB_MYSQL_USER'),
                                               getenv('HBNB_MYSQL_PWD'),
                                               getenv('HBNB_MYSQL_HOST'),
                                               getenv('HBNB_MYSQL_DB')),
-                                       pool_pre_ping=True)
+                                      pool_pre_ping=True)
         # drop tables if test environment
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(bind=self.__engine)
@@ -46,7 +46,7 @@ class DBStorage():
         if cls:
             for obj in self.__session.query(cls).all():
                 obj_dict.update({"{}.{}".
-                                  format(cls.__name__, obj.id): obj})
+                                 format(cls.__name__, obj.id): obj})
         else:
             for val in classes.values():
                 for obj in self.__session.query(val):
