@@ -72,6 +72,6 @@ class Place(BaseModel, Base):
             """
             """
             if amenity and type(amenity).__name__ == "Amenity":
-                for amenity in models.storage.all(Amenity).values():
-                    if amenity.place_id == self.id:
-                        self.amenity_ids.append(amenity)
+                # for amenity in models.storage.all(Amenity).values():
+                if amenity.place_id == self.id:
+                    self.amenity_ids.append(amenity)

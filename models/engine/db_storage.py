@@ -38,6 +38,8 @@ class DBStorage():
         """ Retrieves all model objects depending on class """
         obj_dict = {}
 
+        if not self.__session:
+            self.reload()
         if type(cls) == str and cls in classes:
             cls = classes[cls]
 
@@ -47,7 +49,7 @@ class DBStorage():
                                  format(cls.__name__, obj.id): obj})
         else:
             for val in classes.values():
-                for obj in self.__session.query(val).all():
+                for obj in self.__session.query(val):
                     obj_dict[obj.__class__.__name__ + '.' + obj.id] = obj
         if obj_dict:
             for v in obj_dict.values():
