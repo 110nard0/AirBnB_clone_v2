@@ -9,9 +9,9 @@ from os import getenv
 
 class State(BaseModel, Base):
     """ The state class, contains class and getter attributes """
-    if getenv('HBNB_TYPE_STORAGE') == "db":
-        __tablename__ = "states"
+    __tablename__ = "states"
 
+    if getenv('HBNB_TYPE_STORAGE') == "db":
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="states",
                               cascade="all, delete, delete-orphan")

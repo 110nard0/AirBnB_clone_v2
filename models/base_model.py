@@ -12,12 +12,11 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all AirBnB models with public attributes and methods"""
-    if getenv("HBNB_TYPE_STORAGE") == 'db':
-        id = Column(String(60), primary_key=True, nullable=False)
-        created_at = Column(DateTime, nullable=False,
-                            default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=False,
-                            default=datetime.utcnow())
+    id = Column(String(60), primary_key=True, nullable=False)
+    created_at = Column(DateTime, nullable=False,
+                        default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False,
+                        default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
@@ -32,6 +31,7 @@ class BaseModel:
                     setattr(self, k, datetime.fromisoformat(str(v)))
                 else:
                     setattr(self, k, v)
+                    self.id = str(uuid.uuid4())
 
     def __str__(self):
         """Returns a string representation of the class instance"""
