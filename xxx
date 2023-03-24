@@ -1,0 +1,7 @@
+
+        if not self.__session:
+            self.reload()
+
+        if obj_dict:
+            for v in obj_dict.values():
+                v.__dict__.pop('_sa_instance_state', None)
