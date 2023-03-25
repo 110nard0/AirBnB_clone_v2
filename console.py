@@ -230,9 +230,11 @@ class HBNBCommand(cmd.Cmd):
             else:
                 for k, v in storage.all(args).items():
                     if k.split('.')[0] == args:
+                        v.__dict__.pop('_sa_instance_state', None)
                         print_list.append(v)
         else:
             for v in storage.all().values():
+                v.__dict__.pop('_sa_instance_state', None)
                 print_list.append(v)
         print(print_list)
 

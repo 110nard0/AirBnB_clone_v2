@@ -5,7 +5,6 @@ import models
 from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from os import getenv
 
 Base = declarative_base()
 

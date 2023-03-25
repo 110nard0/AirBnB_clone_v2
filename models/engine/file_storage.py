@@ -32,6 +32,10 @@ class FileStorage:
                     cls_dict[key] = obj
         else:
             cls_dict = self.__objects
+        if getenv('HBNB_TYPE_STORAGE') != 'db':
+            if cls_dict:
+                for v in cls_dict.values():
+                    v.__dict__.pop('_sa_instance_state', None)
         return cls_dict
 
     def new(self, obj):
@@ -41,7 +45,7 @@ class FileStorage:
 
     def save(self):
         """Serializes __objects to the JSON file at __file_path"""
-        objs = {key: obj.to_dict() for key, obj in self.all().items()}
+        objs = {key: obj.to_dict() for key, obj in self.__objects.items()}
         with open(self.__file_path, 'w') as f:
             json.dump(objs, f)
 
