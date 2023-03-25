@@ -34,7 +34,7 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the class instance"""
         return '[{}] ({}) {}'.format(self.__class__.__name__,
-                              self.id, self.__dict__)
+                                     self.id, self.__dict__)
 
     def __repr__(self):
         """Returns the official string representation of instance object"""
@@ -57,5 +57,4 @@ class BaseModel:
         dictionary.update({'__class__': type(self).__name__})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        dictionary.pop("_sa_instance_state", None)
         return dictionary
