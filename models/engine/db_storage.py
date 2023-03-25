@@ -50,10 +50,9 @@ class DBStorage():
                 for obj in self.__session.query(val).all():
                     obj_dict[obj.__class__.__name__ + '.' + obj.id] = obj
 
-        if getenv('HBNB_TYPE_STORAGE') != 'db':
-            if obj_dict:
-                for v in obj_dict.values():
-                    v.__dict__.pop('_sa_instance_state', None)
+        if obj_dict:
+            for v in obj_dict.values():
+                v.__dict__.pop('_sa_instance_state', None)
         return obj_dict
 
     def new(self, obj):
