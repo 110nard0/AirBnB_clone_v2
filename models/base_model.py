@@ -30,11 +30,13 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
+        if getenv('HBNB_TYPE_STORAGE') != 'db':
+            delattr(self, '_sa_instance_state')
 
     def __str__(self):
         """Returns a string representation of the class instance"""
         return '[{}] ({}) {}'.format(self.__class__.__name__,
-                              self.id, self.__dict__)
+                                     self.id, self.__dict__)
 
     def __repr__(self):
         """Returns the official string representation of instance object"""
@@ -53,7 +55,6 @@ class BaseModel:
     def to_dict(self):
         """Converts instance into dict format"""
         dictionary = self.__dict__.copy()
-        dictionary.pop('_sa_instance_state', None)
         dictionary.update({'__class__': type(self).__name__})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
