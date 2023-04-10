@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # sets up web servers for the deployment of web_static
 
-static_string="server_name _;\n\n\tlocation \/hbnb_static {\n\t\talias  \/data\/web_static\/current\/;\n\t\tindex  index.html;\n\t\t}\n"
+static_string="server_name _;\n\n\tlocation \/hbnb_static {\n\t\talias  \/data\/web_static\/current\/;\n\t}"
 
 # update environment and install nginx
 sudo apt update
