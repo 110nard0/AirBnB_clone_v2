@@ -6,10 +6,11 @@ static_string="server_name _;\n\n\tlocation \/hbnb_static {\n\t\talias  \/data\/
 # update environment and install nginx
 sudo apt update
 sudo apt install -y nginx
-sudo service nginx start
+sudo ufw allow 'Nginx HTTP'
 
 # create static content folders and create test webpage
-sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/
+sudo mkdir -p /data/web_static/shared/
 echo "Hello World!" | sudo tee /data/web_static/releases/test/index.html > /dev/null
 
 # create symbolic link to static folders
