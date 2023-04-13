@@ -7,6 +7,7 @@ web_static folder in AirBnB Clone repository
 from fabric.api import local
 from datetime import datetime
 
+
 def do_pack():
     """
     Creates a tar.gz file with a custom name and saves it in a folder
