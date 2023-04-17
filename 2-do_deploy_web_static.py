@@ -41,7 +41,7 @@ def do_deploy(archive_path):
 
             # move web_static content into hosting directory
             sudo('mv /data/web_static/releases/{}/web_static/* \
-                 /data/web_static/releases/{}/'.format(archive))
+                 /data/web_static/releases/{}/'.format(archive, archive))
 
             # remove web_static sub-directory
             sudo('rm -rf /data/web_static/releases/{}/web_static'
