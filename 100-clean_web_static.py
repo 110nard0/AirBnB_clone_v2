@@ -23,9 +23,9 @@ def do_clean(number=0):
         [local("rm ./{}".format(a)) for v in versions]
 
     with cd('/data/web_static/releases'):
-        archives = run('ls -ltr').split()
-        archives = [arch for arch in archives if "web_static_" in arch]
-        [archives.pop() for x in range(number)]
+        versions = run('ls -ltr').split()
+        versions = [ver for ver in versions if "web_static_" in ver]
+        [versions.pop() for x in range(number)]
         [run("rm -rf ./{}".format(v)) for v in versions]
 
 
