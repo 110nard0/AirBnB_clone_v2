@@ -6,24 +6,11 @@ and distributes it to connected web servers
 """
 from fabric.api import lcd, local, put, run, sudo
 from datetime import datetime
+from os import path
 
 
-def do_pack():
-    """
-    Creates a tar.gz archive folder with a custom name and saves it in a folder
-
-    Returns:
-        archive path (SUCCESS) or None (FAIL)
-    """
-    now = datetime.now().strftime('%Y%m%d%H%M%S')
-    path_to_archive = "versions/web_static_" + now + ".tgz"
-
-    local('mkdir -p versions')
-    result = local('tar -cvzf {} web_static/'.format(path_to_archive))
-
-    if result.succeeded:
-        return path_to_archive
-    return None
+env.hosts = ['54.152.106.255', '100.25.181.181']
+env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
@@ -33,10 +20,30 @@ def do_deploy(archive_path):
     Returns:
         True (script works) or False (otherwise)
     """
-    with archive_path():
+    try:
+        if not path.exists(archive_path):
+            return False
+        else:
+            # upload archive
+            put(archive_path, '/tmp/')
 
-        put('')
+            # create target directory
+            archive = archive_path[:-4]
+            sudo('mkdir -p /data/web_static/releases/{}'.format(archive))
+            
+            # uncompress archive to target directory
+            run('tar -xvzf /tmp/{} -C /data/web_static/releases/{}'.
+                format(archive_path, archive))
 
-        tar -xzvf
+            # delete archive
+            run('rm /tmp/{}'.format(archive_path))
 
-        sudo()
+            # delete pre-existing symbolic link
+            sudo('rm -rf /data/web_static/current')
+
+            # create new symbolic link to archive content
+            sudo('ln -sf /data/web_static/releases/{} 
+                          /data/web_static/current'.format(archive))
+    except:
+        return False
+    return True
