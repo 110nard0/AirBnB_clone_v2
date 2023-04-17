@@ -30,7 +30,7 @@ def do_deploy(archive_path):
             # create target directory
             archive = archive_path[:-4]
             sudo('mkdir -p /data/web_static/releases/{}'.format(archive))
-            
+
             # uncompress archive to target directory
             run('tar -xvzf /tmp/{} -C /data/web_static/releases/{}'.
                 format(archive_path, archive))
@@ -42,8 +42,8 @@ def do_deploy(archive_path):
             sudo('rm -rf /data/web_static/current')
 
             # create new symbolic link to archive content
-            sudo('ln -sf /data/web_static/releases/{} 
+            sudo('ln -sf /data/web_static/releases/{}\
                           /data/web_static/current'.format(archive))
-    except:
+    except Exception as e:
         return False
     return True
