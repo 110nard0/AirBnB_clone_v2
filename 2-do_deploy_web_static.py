@@ -3,7 +3,7 @@
 web_static folder in AirBnB Clone repository
 and distributes it to connected web servers
 """
-from fabric.api import env, put, run, sudo
+from fabric.api import env, put, sudo
 from os import path
 
 
@@ -33,7 +33,7 @@ def do_deploy(archive_path):
 
             # uncompress archive to target directory
             archive_path = archive_path[9:]
-            run('tar -xvzf /tmp/{} -C /data/web_static/releases/{}/'.
+            sudo('tar -xvzf /tmp/{} -C /data/web_static/releases/{}/'.
                 format(archive_path, archive))
 
             # delete archive
