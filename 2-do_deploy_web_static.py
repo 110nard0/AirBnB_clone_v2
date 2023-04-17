@@ -8,28 +8,8 @@ from fabric.api import lcd, local, put, run, sudo
 from datetime import datetime
 from os import path
 
-
 env.hosts = ['54.152.106.255', '100.25.181.181']
 env.user = 'ubuntu'
-
-
-def do_pack():
-    """
-    Creates a tar.gz file with a custom name and saves it in a folder
-
-    Returns:
-        archive path (SUCCESS) or None (FAIL)
-    """
-    now = datetime.now().strftime('%Y%m%d%H%M%S')
-    path_to_archive = "versions/web_static_" + now + ".tgz"
-
-    # create target local directory and store archived web static content 
-    local('mkdir -p versions')
-    result = local('tar -cvzf {} web_static/'.format(path_to_archive))
-
-    if result.succeeded:
-        return path_to_archive
-    return None
 
 
 def do_deploy(archive_path):
@@ -66,5 +46,3 @@ def do_deploy(archive_path):
     except Exception as e:
         return False
     return True
-1-pack_web_static.py
-
