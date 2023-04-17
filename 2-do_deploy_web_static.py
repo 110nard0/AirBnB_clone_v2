@@ -3,7 +3,7 @@
 web_static folder in AirBnB Clone repository
 and distributes it to connected web servers
 """
-from fabric.api import put, run, sudo
+from fabric.api import env, put, run, sudo
 from os import path
 
 
