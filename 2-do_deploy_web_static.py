@@ -13,8 +13,7 @@ env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
-    """
-    Sends tar.gz archive folder to web servers
+    """Sends tar.gz archive folder to web servers
 
     Returns:
         True (script works) or False (otherwise)
@@ -45,4 +44,5 @@ def do_deploy(archive_path):
                           /data/web_static/current'.format(archive))
     except Exception as e:
         return False
+
     return True
