@@ -39,6 +39,14 @@ def do_deploy(archive_path):
             # delete archive
             sudo('rm /tmp/{}'.format(archive_path))
 
+            # move web_static content into hosting directory
+            sudo('mv /data/web_static/releases/{}/web_static/* \
+                 /data/web_static/releases/{}/'.format(archive))
+
+            # remove web_static sub-directory
+            sudo('rm -rf /data/web_static/releases/{}/web_static'
+                    .format(archive))
+
             # delete pre-existing symbolic link
             sudo('rm -rf /data/web_static/current')
 
