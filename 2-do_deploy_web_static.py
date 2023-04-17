@@ -4,16 +4,21 @@ generates a .tgz archive from the contents of the
 web_static folder in AirBnB Clone repository
 and distributes it to connected web servers
 """
-from fabric.api import lcd, local, put, run, sudo
+from fabric.api import put, run, sudo
 from datetime import datetime
 from os import path
+
 
 env.hosts = ['54.152.106.255', '100.25.181.181']
 env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
-    """Sends tar.gz archive folder to web servers
+    """
+    Sends tar.gz archive folder to web servers
+
+    Args:
+        archive_path(str): path to .tgz archive
 
     Returns:
         True (script works) or False (otherwise)
