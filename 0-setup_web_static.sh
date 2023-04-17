@@ -2,8 +2,7 @@
 # sets up web servers for the deployment of web_static
 
 # update environment and install nginx
-sudo apt-get -y update
-sudo apt-get -y install nginx
+sudo apt -y update
 sudo apt install -y nginx
 sudo ufw allow 'Nginx HTTP'
 sudo service nginx start
