@@ -34,7 +34,7 @@ def do_deploy(archive_path):
             # uncompress archive to target directory
             archive_path = archive_path[9:]
             sudo('tar -xvzf /tmp/{} -C /data/web_static/releases/{}/'.
-                format(archive_path, archive))
+                 format(archive_path, archive))
 
             # delete archive
             sudo('rm /tmp/{}'.format(archive_path))
@@ -44,8 +44,8 @@ def do_deploy(archive_path):
                  /data/web_static/releases/{}/'.format(archive, archive))
 
             # remove web_static sub-directory
-            sudo('rm -rf /data/web_static/releases/{}/web_static'
-                    .format(archive))
+            sudo('rm -rf /data/web_static/releases/{}/web_static'.
+                 format(archive))
 
             # delete pre-existing symbolic link
             sudo('rm -rf /data/web_static/current')
