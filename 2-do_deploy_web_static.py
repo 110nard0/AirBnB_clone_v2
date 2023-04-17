@@ -3,14 +3,12 @@
 web_static folder in AirBnB Clone repository
 and distributes it to connected web servers
 """
-from fabric.api import *
-from datetime import datetime
-from os import path
+from fabric.api import env, put, run 
+impost os.path
 
 
 env.hosts = ['54.152.106.255', '100.25.181.181']
 env.user = 'ubuntu'
-env.key_filename = '~/.ssh/id_rsa'
 
 
 def do_deploy(archive_path):
@@ -22,42 +20,38 @@ def do_deploy(archive_path):
     Returns:
         True (script works) or False (otherwise)
     """
-    try:
-        if not (path.exists(archive_path)):
-            return False
-
-        # upload archive
-        put(archive_path, '/tmp/')
-
-        # create target directory
-        created_at = archive_path[-18:-4]
-        run('sudo mkdir -p /data/web_static/\
-            releases/web_static_{}/'.format(created_at))
-
-        # uncompress archive to target directory
-        run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
-            /data/web_static/releases/web_static_{}/'.
-            format(created_at, created_at))
-
-        # delete archive
-        run('sudo rm /tmp/web_static_{}.tgz'.format(created_at))
-
-        # move web_static content into hosting directory
-        run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
-            /data/web_static/releases/web_static_{}/'.
-            format(created_at, created_at))
-
-        # remove web_static sub-directory
-        run('sudo rm -rf /data/web_static/releases/\
-            web_static_{}/web_static'.format(created_at))
-
-        # delete pre-existing symbolic link
-        run('sudo rm -rf /data/web_static/current')
-
-        # create new symbolic link to archive content
-        run('sudo ln -s /data/web_static/releases/\
-            web_static_{}/ /data/web_static/current'.format(created_at))
-    except Exception as e:
+    if not os.path.isfile(archive_path):
         return False
 
-    return True
+    try:
+        archive = archive_path.split('/')[-1]
+        file_name = archive.split('.')[0]
+        path_to_file = "/data/web_static/releases/{}/".format(file_name)
+        symlink = "/data/web_static/current"
+
+        # upload archive
+        put(archive_path, "/tmp/")
+
+        # create target directory
+        run("sudo mkdir -p {}".format(path_to_file))
+
+        # uncompress archive to target directory
+        run("sudo tar -xzf /tmp/{} -C {}".format(archive, path_to_file))
+
+        # delete archive
+        run("sudo rm /tmp/{}".format(archive))
+
+        # move web_static content into hosting directory
+        run("sudo mv {}web_static/* {}".format(path_to_file, path_to_file))
+
+        # remove web_static sub-directory
+        run("sudo rm -rf {}web_static".format(path_to_file))
+
+        # delete pre-existing symbolic link
+        run("sudo rm -rf {}".format(symlink))
+
+        # create new symbolic link to archive content
+        run("sudo ln -s {} {}".format(path_to_file, symlink))
+        return True
+    except:
+        return False
