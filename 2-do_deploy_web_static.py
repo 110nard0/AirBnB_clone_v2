@@ -32,11 +32,12 @@ def do_deploy(archive_path):
             sudo('mkdir -p /data/web_static/releases/{}'.format(archive))
 
             # uncompress archive to target directory
+            archive_path = archive_path[9:-4]
             run('tar -xvzf /tmp/{} -C /data/web_static/releases/{}'.
                 format(archive_path, archive))
 
             # delete archive
-            run('rm /tmp/{}'.format(archive_path))
+            sudo('rm /tmp/{}'.format(archive_path))
 
             # delete pre-existing symbolic link
             sudo('rm -rf /data/web_static/current')
