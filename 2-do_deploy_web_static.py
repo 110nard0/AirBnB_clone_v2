@@ -3,12 +3,13 @@
 web_static folder in AirBnB Clone repository
 and distributes it to connected web servers
 """
-from fabric.api import env, put, sudo
+from fabric.api import *
 from os import path
 
 
 env.hosts = ['54.152.106.255', '100.25.181.181']
 env.user = 'ubuntu'
+env.key = '~/.ssh/id_rsa'
 
 
 def do_deploy(archive_path):
@@ -28,31 +29,33 @@ def do_deploy(archive_path):
             put(archive_path, '/tmp/')
 
             # create target directory
-            archive = archive_path[9:-4]
-            sudo('mkdir -p /data/web_static/releases/{}/'.format(archive))
+            created_at = archive_path[-18:-4]
+            run('sudo mkdir -p /data/web_static/\
+                releases/web_static_{}/'.format(created_at))
 
             # uncompress archive to target directory
-            archive_path = archive_path[9:]
-            sudo('tar -xvzf /tmp/{} -C /data/web_static/releases/{}/'.
-                 format(archive_path, archive))
+            run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
+                /data/web_static/releases/web_static_{}/'
+                .format(created_at, created_at))
 
             # delete archive
-            sudo('rm /tmp/{}'.format(archive_path))
+            run('sudo rm /tmp/web_static_{}.tgz'.format(created_at))
 
             # move web_static content into hosting directory
-            sudo('mv /data/web_static/releases/{}/web_static/* \
-                 /data/web_static/releases/{}/'.format(archive, archive))
+            run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
+                /data/web_static/releases/web_static_{}/'.
+                format(created_at, created_at))
 
             # remove web_static sub-directory
-            sudo('rm -rf /data/web_static/releases/{}/web_static'.
-                 format(archive))
+            run('sudo rm -rf /data/web_static/releases/\
+                web_static_{}/web_static'.format(created_at))
 
             # delete pre-existing symbolic link
-            sudo('rm -rf /data/web_static/current')
+            run('sudo rm -rf /data/web_static/current')
 
             # create new symbolic link to archive content
-            sudo('ln -sf /data/web_static/releases/{}\
-                          /data/web_static/current'.format(archive))
+            run('sudo ln -s /data/web_static/releases/\
+                web_static_{}/ /data/web_static/current'.format(created_at))
     except Exception as e:
         return False
 
