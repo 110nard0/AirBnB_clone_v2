@@ -28,11 +28,11 @@ def do_deploy(archive_path):
             put(archive_path, '/tmp/')
 
             # create target directory
-            archive = archive_path[:-4]
+            archive = archive_path[9:-4]
             sudo('mkdir -p /data/web_static/releases/{}'.format(archive))
 
             # uncompress archive to target directory
-            archive_path = archive_path[9:-4]
+            archive_path = archive_path[9:]
             run('tar -xvzf /tmp/{} -C /data/web_static/releases/{}'.
                 format(archive_path, archive))
 
