@@ -42,6 +42,7 @@ def number(n):
     """
     return "{} is a number".format(escape(n))
 
+
 @app.route('/number_template/<int:n>')
 def number_template(n):
     """Displays a HTML page only if n is an integer
