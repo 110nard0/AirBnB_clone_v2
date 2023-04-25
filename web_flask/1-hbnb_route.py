@@ -12,11 +12,12 @@ def hello_hbnb():
     """
     return "Hello HBNB!"
 
+
 @app.route('/hbnb', strict_slashes=False)
 def display_hbnb():
     """Displays query string
     """
-    return "HBNB!"
+    return "HBNB"
 
 
 if __name__ == '__main__':
