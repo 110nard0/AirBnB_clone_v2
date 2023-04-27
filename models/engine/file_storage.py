@@ -40,7 +40,7 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        key = f"{obj.__class__.__name__}.{obj.id}"
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
 
     def save(self):
