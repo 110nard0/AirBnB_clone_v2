@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage database storage for AirBnB clone"""
-from models.base_model import BaseModel, BaseModel, Base
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -76,3 +76,7 @@ class DBStorage():
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         self.__session = scoped_session(session_factory)
+
+    def close(self):
+        """ Closes current database session """
+        self.__session.remove()
