@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/states_list')
 def states():
-    """Displays a HTML page with a list of all states in current db session 
+    """Displays a HTML page with a list of all states in current db session
     """
     states = storage.all('State')
     return render_template('7-states_list.html', states=states)
