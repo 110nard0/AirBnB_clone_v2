@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 """Starts a Flask web application that fetches data from storage engine
 """
-
 from models import storage
 from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route('/states')
-@app.route('/states/<id>')
-def states(id=None):
-    """Displays a HTML page with a list of all states by id
+@app.route('/hbnb_filters')
+def states():
+    """Displays a HTML page with a list of filters for the AirBnB clone page
     """
     states = storage.all('State')
-    return render_template('9-states.html', states=states, id=id)
+    amenities = storage.all('Amenity')
+    return render_template('10-hbnb_filters.html',
+                           states=states, amenities=amenities)
 
 
 @app.teardown_appcontext
