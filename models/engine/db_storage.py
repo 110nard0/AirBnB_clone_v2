@@ -38,10 +38,10 @@ class DBStorage():
         """ Retrieves all model objects depending on class """
         obj_dict = {}
 
-        if type(cls) == str and cls in classes:
-            cls = classes[cls]
-
         if cls:
+            if type(cls) == str and cls in classes:
+                cls = classes[cls]
+
             for obj in self.__session.query(cls).all():
                 obj_dict.update({"{}.{}".
                                  format(cls.__name__, obj.id): obj})
