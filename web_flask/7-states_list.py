@@ -12,7 +12,8 @@ def states():
     """Displays a HTML page with a list of all states in current db session
     """
     states = storage.all('State')
-    return render_template('7-states_list.html', states=states)
+    sorted_states = sorted(states.values(), key=lambda state: state.name)
+    return render_template('7-states_list.html', states=sorted_states)
 
 
 @app.teardown_appcontext
