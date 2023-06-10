@@ -6,7 +6,7 @@ and distributes it to connected web servers
 from fabric.api import env, put, run
 import os.path
 
-env.hosts = ['54.152.106.255', '100.25.181.181']
+env.hosts = ['52.204.195.22', '3.83.238.160']
 env.user = 'ubuntu'
 
 
