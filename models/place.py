@@ -64,7 +64,7 @@ class Place(BaseModel, Base):
             for key, amenity in models.storage.all('Amenity').items():
                 # if key.split('.')[1] in self.amenity_ids:
                 if amenity.place_id == self.id:
-                    amenity_list.append(amenity.id)
+                    amenity_list.append(amenity)
             return amenity_list
 
         @amenities.setter
